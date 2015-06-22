@@ -373,7 +373,7 @@ int main(int argc, char *argv[]) {
                     for (int i = 0; i < maxnodes; ++i) {
                         const double lat = coord_scale * (primblock.lat_offset() + (primblock.granularity() * pg.nodes(i).lat()));
                         const double lon = coord_scale * (primblock.lon_offset() + (primblock.granularity() * pg.nodes(i).lon()));
-                        debug("        node %u   at lat=%.6f lon=%.6f", pg.nodes(i), lat, lon);
+                        debug("        node %u   at lat=%.6f lon=%.6f", pg.nodes(i).id(), lat, lon);
                         for (int k = 0; k < pg.nodes(i).keys_size(); ++k) {
                             debug("          %s='%s'", primblock.stringtable().s(pg.nodes(i).keys(k)).c_str(), primblock.stringtable().s(pg.nodes(i).vals(k)).c_str());
                         }
