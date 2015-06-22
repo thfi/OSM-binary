@@ -448,7 +448,7 @@ int main(int argc, char *argv[]) {
                     const int maxrelations = pg.relations_size() > list_limit ? list_limit : pg.relations_size();
                     for (int i = 0; i < maxrelations; ++i) {
                         debug("        relation %u", pg.relations(i).id());
-                        int maxkv = pg.relations(i).keys_size() > list_limit ? list_limit : pg.relations(i).keys_size();
+                        const int maxkv = pg.relations(i).keys_size() > list_limit ? list_limit : pg.relations(i).keys_size();
                         for (int k = 0; k < maxkv; ++k) {
                             debug("          %s='%s'", primblock.stringtable().s(pg.relations(i).keys(k)).c_str(), primblock.stringtable().s(pg.relations(i).vals(k)).c_str());
                         }
