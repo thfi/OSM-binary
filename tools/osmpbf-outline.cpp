@@ -389,10 +389,33 @@ int main(int argc, char *argv[]) {
                         debug("        with meta-info");
                     }
 
-                    const int maxnodes = pg.dense().keys_vals_size() > list_limit ? 100 : pg.dense().keys_vals_size();
-                    for (int i = 0; i < maxnodes; ++i) {
-                        debug("        %d key %u    ", i, pg.dense().keys_vals(i));
-                    }
+                    int last_id = 0, last_keyvals_pos = 0;
+                    double last_lat = 0.0, last_lon = 0.0;
+                    const int idmax = pg.dense().id_size() > list_limit ? list_limit : pg.dense().id_size();
+                    for (int i = 0; i < idmax; ++i) {
+                        last_id += pg.dense().id(i);
+                        last_lat += coord_scale * (primblock.lat_offset() + (primblock.granularity() * pg.dense().lat(i)));
+                        last_lon += coord_scale * (primblock.lon_offset() + (primblock.granularity() * pg.dense().lon(i)));
+
+                        debug("        dense node %u   at lat=%.6f lon=%.6f", last_id, last_lat, last_lon);
+
+                        bool isKey = true;
+                        int key = 0, value = 0;
+                        while (last_keyvals_pos < pg.dense().keys_vals_size()){
+                            const int key_val = pg.dense().keys_vals(last_keyvals_pos);
+                            ++last_keyvals_pos;
+                            if (key_val == 0) break;
+                            if (isKey) {
+                                key = key_val;
+                                isKey = false;
+                            } else { /// must be value
+                                value = key_val;
+                                isKey = true;
+
+                                debug("          %s='%s'", primblock.stringtable().s(key).c_str(), primblock.stringtable().s(value).c_str());
+                            }
+                        }
+                     }
                 }
 
                 // tell about ways
