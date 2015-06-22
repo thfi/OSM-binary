@@ -452,6 +452,14 @@ int main(int argc, char *argv[]) {
                         for (int k = 0; k < maxkv; ++k) {
                             debug("          %s='%s'", primblock.stringtable().s(pg.relations(i).keys(k)).c_str(), primblock.stringtable().s(pg.relations(i).vals(k)).c_str());
                         }
+
+                        const int maxmembers = pg.relations(i).memids_size() > list_limit ? list_limit : pg.relations(i).memids_size();
+                        int last_memid = 0; /// delta encoding
+                        for (int k = 0; k < maxmembers; ++k) {
+                            last_memid += pg.relations(i).memids(k);
+                            const char *type_str = pg.relations(i).types(k) == 0 ? "Node" : (pg.relations(i).types(k) == 1 ? "Way" : (pg.relations(i).types(k) == 2 ? "Relation" : "UNKNOWN"));
+                            debug("          member=%u  role=%s  type=%s", last_memid, primblock.stringtable().s(pg.relations(i).roles_sid(k)).c_str(), type_str);
+                        }
                     }
                 }
 
