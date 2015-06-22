@@ -357,7 +357,8 @@ int main(int argc, char *argv[]) {
                 // one PrimitiveGroup from the the Block
                 OSMPBF::PrimitiveGroup pg = primblock.primitivegroup(i);
 
-                bool found_items=false;
+                bool found_items = false;
+                const double coord_scale = 0.000000001;
 
                 // tell about nodes
                 if (pg.nodes_size() > 0) {
@@ -370,8 +371,11 @@ int main(int argc, char *argv[]) {
 
                     const int maxnodes = pg.nodes_size() > list_limit ? list_limit : pg.nodes_size();
                     for (int i = 0; i < maxnodes; ++i) {
+                        const double lat = coord_scale * (primblock.lat_offset() + (primblock.granularity() * pg.nodes(i).lat()));
+                        const double lon = coord_scale * (primblock.lon_offset() + (primblock.granularity() * pg.nodes(i).lon()));
+                        debug("        node %u   at lat=%.6f lon=%.6f", pg.nodes(i), lat, lon);
                         for (int k = 0; k < pg.nodes(i).keys_size(); ++k) {
-                            debug("        %d/%d key %s='%s'", i, k, primblock.stringtable().s(pg.nodes(i).keys(k)).c_str(), primblock.stringtable().s(pg.nodes(i).vals(k)).c_str());
+                            debug("          %s='%s'", primblock.stringtable().s(pg.nodes(i).keys(k)).c_str(), primblock.stringtable().s(pg.nodes(i).vals(k)).c_str());
                         }
                     }
                 }
@@ -402,8 +406,9 @@ int main(int argc, char *argv[]) {
 
                     const int maxways = pg.ways_size() > list_limit ? list_limit : pg.ways_size();
                     for (int i = 0; i < maxways; ++i) {
+                        debug("        way %d", i);
                         for (int k = 0; k < pg.ways(i).keys_size(); ++k) {
-                            debug("        %d/%d key %s='%s'", i, k, primblock.stringtable().s(pg.ways(i).keys(k)).c_str(), primblock.stringtable().s(pg.ways(i).vals(k)).c_str());
+                            debug("          %s='%s'", primblock.stringtable().s(pg.ways(i).keys(k)).c_str(), primblock.stringtable().s(pg.ways(i).vals(k)).c_str());
                         }
                     }
                 }
@@ -419,9 +424,10 @@ int main(int argc, char *argv[]) {
 
                     const int maxrelations = pg.relations_size() > list_limit ? list_limit : pg.relations_size();
                     for (int i = 0; i < maxrelations; ++i) {
+                        debug("        relation %d", i);
                         int maxkv = pg.relations(i).keys_size() > list_limit ? list_limit : pg.relations(i).keys_size();
                         for (int k = 0; k < maxkv; ++k) {
-                            debug("        %d/%d key %s='%s'", i, k, primblock.stringtable().s(pg.relations(i).keys(k)).c_str(), primblock.stringtable().s(pg.relations(i).vals(k)).c_str());
+                            debug("          %s='%s'", primblock.stringtable().s(pg.relations(i).keys(k)).c_str(), primblock.stringtable().s(pg.relations(i).vals(k)).c_str());
                         }
                     }
                 }
