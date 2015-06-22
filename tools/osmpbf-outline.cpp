@@ -367,6 +367,13 @@ int main(int argc, char *argv[]) {
                     if (pg.nodes(0).has_info()) {
                         debug("        with meta-info");
                     }
+
+                    const int maxnodes = pg.nodes_size() > list_limit ? list_limit : pg.nodes_size();
+                    for (int i = 0; i < maxnodes; ++i) {
+                        for (int k = 0; k < pg.nodes(i).keys_size(); ++k) {
+                            debug("        %d/%d key %s='%s'", i, k, primblock.stringtable().s(pg.nodes(i).keys(k)).c_str(), primblock.stringtable().s(pg.nodes(i).vals(k)).c_str());
+                        }
+                    }
                 }
 
                 // tell about dense nodes
@@ -376,6 +383,11 @@ int main(int argc, char *argv[]) {
                     debug("      dense nodes: %d", pg.dense().id_size());
                     if (pg.dense().has_denseinfo()) {
                         debug("        with meta-info");
+                    }
+
+                    const int maxnodes = pg.dense().keys_vals_size() > list_limit ? 100 : pg.dense().keys_vals_size();
+                    for (int i = 0; i < maxnodes; ++i) {
+                        debug("        %d key %u    ", i, pg.dense().keys_vals(i));
                     }
                 }
 
