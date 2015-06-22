@@ -386,11 +386,12 @@ int main(int argc, char *argv[]) {
                     debug("      ways: %d", pg.ways_size());
                     if (pg.ways(0).has_info()) {
                         debug("        with meta-info");
-                        const int maxways = pg.ways_size() > list_limit ? list_limit : pg.ways_size();
-                        for (int i = 0; i < maxways; ++i) {
-                            for (int k = 0; k < pg.ways(i).keys_size(); ++k) {
-                                debug("        %d/%d key %s='%s'", i, k, primblock.stringtable().s(pg.ways(i).keys(k)).c_str(), primblock.stringtable().s(pg.ways(i).vals(k)).c_str());
-                            }
+                    }
+
+                    const int maxways = pg.ways_size() > list_limit ? list_limit : pg.ways_size();
+                    for (int i = 0; i < maxways; ++i) {
+                        for (int k = 0; k < pg.ways(i).keys_size(); ++k) {
+                            debug("        %d/%d key %s='%s'", i, k, primblock.stringtable().s(pg.ways(i).keys(k)).c_str(), primblock.stringtable().s(pg.ways(i).vals(k)).c_str());
                         }
                     }
                 }
@@ -402,12 +403,13 @@ int main(int argc, char *argv[]) {
                     debug("      relations: %d", pg.relations_size());
                     if (pg.relations(0).has_info()) {
                         debug("        with meta-info");
-                        const int maxrelations = pg.relations_size() > list_limit ? list_limit : pg.relations_size();
-                        for (int i = 0; i < maxrelations; ++i) {
-                            int maxkv = pg.relations(i).keys_size() > list_limit ? list_limit : pg.relations(i).keys_size();
-                            for (int k = 0; k < maxkv; ++k) {
-                                debug("        %d/%d key %s='%s'", i, k, primblock.stringtable().s(pg.relations(i).keys(k)).c_str(), primblock.stringtable().s(pg.relations(i).vals(k)).c_str());
-                            }
+                    }
+
+                    const int maxrelations = pg.relations_size() > list_limit ? list_limit : pg.relations_size();
+                    for (int i = 0; i < maxrelations; ++i) {
+                        int maxkv = pg.relations(i).keys_size() > list_limit ? list_limit : pg.relations(i).keys_size();
+                        for (int k = 0; k < maxkv; ++k) {
+                            debug("        %d/%d key %s='%s'", i, k, primblock.stringtable().s(pg.relations(i).keys(k)).c_str(), primblock.stringtable().s(pg.relations(i).vals(k)).c_str());
                         }
                     }
                 }
