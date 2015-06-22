@@ -429,7 +429,7 @@ int main(int argc, char *argv[]) {
 
                     const int maxways = pg.ways_size() > list_limit ? list_limit : pg.ways_size();
                     for (int i = 0; i < maxways; ++i) {
-                        debug("        way %d", i);
+                        debug("        way %d", pg.ways(i).id());
                         for (int k = 0; k < pg.ways(i).keys_size(); ++k) {
                             debug("          %s='%s'", primblock.stringtable().s(pg.ways(i).keys(k)).c_str(), primblock.stringtable().s(pg.ways(i).vals(k)).c_str());
                         }
@@ -447,7 +447,7 @@ int main(int argc, char *argv[]) {
 
                     const int maxrelations = pg.relations_size() > list_limit ? list_limit : pg.relations_size();
                     for (int i = 0; i < maxrelations; ++i) {
-                        debug("        relation %d", i);
+                        debug("        relation %u", pg.relations(i).id());
                         int maxkv = pg.relations(i).keys_size() > list_limit ? list_limit : pg.relations(i).keys_size();
                         for (int k = 0; k < maxkv; ++k) {
                             debug("          %s='%s'", primblock.stringtable().s(pg.relations(i).keys(k)).c_str(), primblock.stringtable().s(pg.relations(i).vals(k)).c_str());
