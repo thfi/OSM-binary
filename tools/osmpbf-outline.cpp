@@ -346,7 +346,7 @@ int main(int argc, char *argv[]) {
             debug("    stringtable: %u items", primblock.stringtable().s_size());
             const int maxstring = primblock.stringtable().s_size() > list_limit ? list_limit : primblock.stringtable().s_size();
             for (int i = 0; i < maxstring; ++i) {
-                debug("      string %d = %s", i, primblock.stringtable().s(i).c_str());
+                debug("      string %d = '%s'", i, primblock.stringtable().s(i).c_str());
             }
 
             // number of PrimitiveGroups
@@ -458,7 +458,7 @@ int main(int argc, char *argv[]) {
                         for (int k = 0; k < maxmembers; ++k) {
                             last_memid += pg.relations(i).memids(k);
                             const char *type_str = pg.relations(i).types(k) == 0 ? "Node" : (pg.relations(i).types(k) == 1 ? "Way" : (pg.relations(i).types(k) == 2 ? "Relation" : "UNKNOWN"));
-                            debug("          member=%u  role=%s  type=%s", last_memid, primblock.stringtable().s(pg.relations(i).roles_sid(k)).c_str(), type_str);
+                            debug("          member=%u  role='%s'  type=%s", last_memid, primblock.stringtable().s(pg.relations(i).roles_sid(k)).c_str(), type_str);
                         }
                     }
                 }
